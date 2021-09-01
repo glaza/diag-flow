@@ -2,7 +2,7 @@ $(function () {
     $("#sendButton").click(function () {
         var messageValue = $("#messageInput").val();
         var messageObject = createMessageWithValue("", messageValue);
-        schedule(
+        $.flowSchedule(
             [
                 {
                     desc: "App 1 creates a message with value [" + messageValue + "]",
@@ -18,7 +18,7 @@ $(function () {
                     dst: "#stage1",
                     highlight: "#app1",
                     func: function () {
-                        $(messageObject).send($("#app1"), $("#stage1"));
+                        $(messageObject).flowSend($("#app1"), $("#stage1"));
                     },
                     duration: getStepDelay()
                 }
@@ -27,7 +27,7 @@ $(function () {
     });
 
     $("#process").click(function () {
-        schedule(
+        $.flowSchedule(
             [
                 {
                     desc: "Processing Stage 1",
@@ -35,7 +35,7 @@ $(function () {
                     src: "#stage1",
                     dst: "#stage2",
                     func: function () {
-                        $("#stage1").children(".message").moveTo("#stage2");
+                        $("#stage1").children(".message").flowMoveTo("#stage2");
                     },
                     duration: getStepDelay()
                 },
@@ -45,7 +45,7 @@ $(function () {
                     src: "#stage2",
                     dst: "#table1",
                     func: function () {
-                        $("#stage2").children(".message").clone().send("#stage2", "#table1");
+                        $("#stage2").children(".message").clone().flowSend("#stage2", "#table1");
                     },
                     duration: getStepDelay()
                 },
@@ -55,7 +55,7 @@ $(function () {
                     src: "#stage2",
                     dst: "#stage3",
                     func: function () {
-                        $("#stage2").children(".message").moveTo("#stage3");
+                        $("#stage2").children(".message").flowMoveTo("#stage3");
                     },
                     duration: getStepDelay()
                 },
@@ -63,9 +63,9 @@ $(function () {
                     desc: "Stage 3 - Move to Stage 4",
                     highlight: "#stage3",
                     src: "#stage3",
-                    dst: "#table4",
+                    dst: "#stage4",
                     func: function () {
-                        //$("#stage3").children(".message").moveTo("#stage4");
+                        $("#stage3").children(".message").moveTo("#stage4");
                     },
                     duration: getStepDelay()
                 },
