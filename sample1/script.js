@@ -1,32 +1,18 @@
 $(function () {
-    $("#sendButton").click(function () {
-        var messageValue = $("#messageInput").val();
-        var messageObject = createMessageWithValue("", messageValue);
-        $.flowSchedule(
-            [
-                {
-                    desc: "App 1 creates a message with value [" + messageValue + "]",
-                    highlight: "#thread1",
-                    func: function () {
-                        $("#app1").append(messageObject);
-                    },
-                    duration: getStepDelay()
-                },
-                {
-                    desc: "App 1 transfers message to App 2",
-                    src: "#app1",
-                    dst: "#stage1",
-                    highlight: "#app1",
-                    func: function () {
-                        $(messageObject).flowSend($("#app1"), $("#stage1"));
-                    },
-                    duration: getStepDelay()
-                }
-            ]
-        );
+    var count = 0;
+    setInterval(() => {
+        $("#messageInput").val("message" + count++);
+    }, 1000);
+
+    $("#createButton").click(() => {
+        $("#app1").flowAppendMessage($("#messageInput").val());
     });
 
-    $("#process").click(function () {
+    $("#sendButton").click(() => {
+        $("#app1").children(".message").flowMoveTo($("#stage1"));
+    });
+
+    $("#process").click(() => {
         $.flowSchedule(
             [
                 {

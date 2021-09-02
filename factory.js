@@ -4,8 +4,6 @@ var handCTHTML = '<img src="../common/styles/hand-ct.jpg" />'
 var handMRHTML = '<img src="../common/styles/hand-mr.jpg" />'
 var handHTML = '<img src="../common/styles/hand.jpg" />'
 var folderHTML = '<div><img src="../common/styles/folder-icon.png" /></div>';
-var messageHTML = '<div></div>';
-var placeholderHTML = "<div class='container'><img src='../common/styles/empty.png' /></div>";
 
 var requestScopedSequenceNumber = [];
 var requests = [];
@@ -51,21 +49,6 @@ function createSopWithValue( modality, value )
     return sop;
 }
 
-function createMessage( type )
-{
-    return $( messageHTML )
-        //.attr( "id", "message" + messageSequenceNumber++ )
-        .addClass( "message" )
-        .addClass( type );
-}
-
-function createMessageWithValue( type, value )
-{
-    var message = createMessage( type );
-    $( message ).append( getValueNode( value ) );
-    return message;
-}
-
 function createFolder( sop )
 {
     return createFolder( sop, false, 0 );
@@ -106,11 +89,6 @@ function createFolder( sop, permanent, version )
             );
     
     return folder;
-}
-
-function createPlaceholder( elem )
-{
-    return $( placeholderHTML );
 }
 
 function newRequest( pacsid, serverid, appid )

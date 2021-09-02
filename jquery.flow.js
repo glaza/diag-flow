@@ -53,10 +53,10 @@
                 var elemHeight = $(this).height();
 
                 var destinationPlaceHolder =
-                    createPlaceholder($(destinationContainer))
+                    createPlaceholder()
                         .appendTo($(destinationContainer))
                         .width(elemWidth)
-                        .height(elemHeight)
+                        .height(elemHeight*2)
                         .hide()
                         .slideDown(
                             getStepDelay(),
@@ -76,12 +76,10 @@
                 var destPosition = $(destinationPlaceHolder).offset();
 
                 var sourcePlaceHolder =
-                    createPlaceholder($(this))
+                    createPlaceholder()
                         .appendTo(element.parent())
-                        //.addClass( "container" )
-                        //.css( "margin", elemHeight )
                         .width(elemWidth)
-                        .height(elemHeight)
+                        .height(elemHeight*2)
                         .slideUp(
                             getStepDelay(),
                             function () // complete
@@ -141,6 +139,11 @@
                         .appendTo($(destinationContainer))
                         .css("position", "static");
                 });
+    }
+
+    $.fn.flowAppendMessage = function (value) {
+        console.log("appending message");
+        $(this).append($("<div class=\"message\">" + value + "</div>"));
     }
 
     /**
@@ -348,7 +351,17 @@ function getStepDelay() {
 }
 
 function displayDescription(desc, duration, highlightDuration, highlight) {
-    var dialog = $("<div>" + desc + "</div>").dialog();
+    var dialog = $("<div>" + desc + "</div>").dialog({
+        autoOpen: true,
+        show: {
+          effect: "blind",
+          duration: 500
+        },
+        hide: {
+          effect: "blind",
+          duration: 500
+        }
+      });
     // $("<h3>" + desc + "</h3>")
     //     .appendTo("#desc")
     //     .css("opacity", 0.0)
@@ -377,13 +390,25 @@ function displayDescription(desc, duration, highlightDuration, highlight) {
             .css("background-color", "pink");
 
         // Restore old color
-        setTimeout(function () {
+        setTimeout(() => {
             $(highlight)
                 .css("color", oldColor)
                 .css("background-color", oldBgColor);
-        },
+                dialog.dialog("close");
+            },
             highlightDuration
         );
     }
 }
 
+//  _____          _                   
+// |  ___|_ _  ___| |_ ___  _ __ _   _ 
+// | |_ / _` |/ __| __/ _ \| '__| | | |
+// |  _| (_| | (__| || (_) | |  | |_| |
+// |_|  \__,_|\___|\__\___/|_|   \__, |
+//                               |___/ 
+
+function createPlaceholder()
+{
+    return $("<div></div>");
+}
